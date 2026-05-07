@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Free Programming Workshops & Personal Classes by Bishal Rijal - PHP, MERN, Python, C, SQL, Scratch" />
+<title>Bishal Rijal | Free Programming Workshops & Personal Classes</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --primary: #2563eb;
+    --primary-dark: #1e40af;
+    --accent: #06b6d4;
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --text: #0f172a;
+    --text-muted: #475569;
+    --border: #e2e8f0;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --shadow: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 10px 30px rgba(0,0,0,0.12);
+    --radius: 12px;
+    --transition: all 0.3s ease;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Segoe UI', Tahoma, system-ui, -apple-system, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: var(--primary); text-decoration: none; transition: var(--transition); }
+  a:hover, a:focus { color: var(--primary-dark); }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 1.25rem; }
+  section { padding: 4rem 0; }
+  h1, h2, h3 { line-height: 1.2; font-weight: 700; }
+  h1 { font-size: clamp(2rem, 5vw, 3.25rem); }
+  h2 { font-size: clamp(1.5rem, 3.5vw, 2.25rem); margin-bottom: 1rem; }
+  h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+  p { color: var(--text-muted); }
+
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0; }
+  .logo { font-weight: 800; font-size: 1.25rem; color: var(--text); display: flex; align-items: center; gap: 0.5rem; }
+  .logo span { color: var(--primary); }
+  .nav-links { display: flex; gap: 1.5rem; list-style: none; align-items: center; flex-wrap: wrap; }
+  .nav-links a { color: var(--text); font-weight: 500; padding: 0.5rem 0; position: relative; }
+  .nav-links a.active::after, .nav-links a:hover::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px; background: var(--primary); border-radius: 2px;
+  }
+  .nav-links a.admin-link {
+    background: var(--primary); color: #fff !important;
+    padding: 0.5rem 1rem; border-radius: 8px;
+  }
+  .nav-links a.admin-link::after { display: none; }
+  .nav-links a.admin-link:hover { background: var(--primary-dark); }
+  .menu-toggle { display: none; background: none; border: none; cursor: pointer; font-size: 1.75rem; color: var(--text); }
+
+  .btn {
+    display: inline-block; padding: 0.85rem 1.75rem;
+    border-radius: var(--radius); font-weight: 600;
+    border: 2px solid transparent; cursor: pointer;
+    transition: var(--transition); text-align: center;
+    font-family: inherit; font-size: 1rem;
+  }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-dark); color: #fff; transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .btn-outline { background: transparent; color: var(--primary); border-color: var(--primary); }
+  .btn-outline:hover { background: var(--primary); color: #fff; }
+  .btn-danger { background: var(--danger); color: #fff; }
+  .btn-danger:hover { background: #dc2626; }
+  .btn-success { background: var(--success); color: #fff; }
+  .btn-success:hover { background: #059669; }
+  .btn-warning { background: var(--warning); color: #fff; }
+  .btn-warning:hover { background: #d97706; }
+  .btn-sm { padding: 0.5rem 1rem; font-size: 0.875rem; }
+
+  .page { display: none; animation: fadeIn 0.4s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from {opacity:0; transform: translateY(10px);} to {opacity:1; transform:none;} }
+
+  .hero {
+    background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+    color: #fff; padding: 5rem 0; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%);
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .hero h1 { color: #fff; margin-bottom: 1rem; }
+  .hero .tagline { font-size: 1.25rem; opacity: 0.95; margin-bottom: 2rem; }
+  .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .hero .btn-primary { background: #fff; color: var(--primary); }
+  .hero .btn-primary:hover { background: var(--bg); }
+  .hero .btn-outline { color: #fff; border-color: #fff; }
+  .hero .btn-outline:hover { background: #fff; color: var(--primary); }
+
+  .grid { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .card {
+    background: var(--surface); border-radius: var(--radius);
+    padding: 1.75rem; box-shadow: var(--shadow);
+    border: 1px solid var(--border); transition: var(--transition);
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .card .icon {
+    width: 50px; height: 50px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem;
+  }
+
+  .about-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 3rem; align-items: center; }
+  .about-img {
+    width: 100%; aspect-ratio: 1;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 5rem; font-weight: 800;
+    box-shadow: var(--shadow-lg);
+  }
+  .skills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+  .skill-tag {
+    background: #eff6ff; color: var(--primary);
+    padding: 0.4rem 0.9rem; border-radius: 20px;
+    font-size: 0.875rem; font-weight: 500;
+  }
+
+  .timeline { border-left: 3px solid var(--border); padding-left: 1.5rem; margin: 1.5rem 0; }
+  .timeline-item { position: relative; margin-bottom: 1.5rem; }
+  .timeline-item::before {
+    content: ''; position: absolute; left: -1.85rem; top: 0.4rem;
+    width: 16px; height: 16px; background: var(--primary);
+    border-radius: 50%; border: 3px solid var(--surface);
+    box-shadow: 0 0 0 2px var(--primary);
+  }
+  .timeline-item .year { color: var(--primary); font-weight: 700; font-size: 0.875rem; }
+  .timeline-item h4 { font-weight: 700; margin: 0.25rem 0; }
+
+  .workshop-card {
+    background: var(--surface); border-radius: var(--radius);
+    padding: 1.5rem; box-shadow: var(--shadow); border-left: 4px solid var(--primary);
+    transition: var(--transition);
+    display: grid; grid-template-columns: auto 1fr auto; gap: 1.5rem; align-items: center;
+  }
+  .workshop-card:hover { transform: translateX(4px); box-shadow: var(--shadow-lg); }
+  .workshop-card.custom { border-left-color: var(--success); }
+  .workshop-date {
+    text-align: center; padding: 0.75rem 1rem;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: #fff; border-radius: 10px; min-width: 80px;
+  }
+  .workshop-card.custom .workshop-date { background: linear-gradient(135deg, var(--success), #059669); }
+  .workshop-date .day { font-size: 1.75rem; font-weight: 800; line-height: 1; }
+  .workshop-date .month { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+  .workshop-info h3 { color: var(--text); margin-bottom: 0.25rem; }
+  .workshop-meta { font-size: 0.9rem; color: var(--text-muted); }
+  .badge {
+    display: inline-block; padding: 0.25rem 0.7rem; border-radius: 12px;
+    font-size: 0.75rem; font-weight: 600; background: #d1fae5; color: var(--success);
+    margin-right: 0.5rem;
+  }
+  .badge.custom-badge { background: #fef3c7; color: #92400e; }
+  .workshop-actions { display: flex; flex-direction: column; gap: 0.5rem; }
+  .empty-state {
+    text-align: center; padding: 3rem 1rem; color: var(--text-muted);
+    background: var(--surface); border-radius: var(--radius);
+    border: 2px dashed var(--border);
+  }
+
+  .form {
+    background: var(--surface); padding: 2rem; border-radius: var(--radius);
+    box-shadow: var(--shadow); max-width: 700px; margin: 0 auto;
+  }
+  .form-group { margin-bottom: 1.25rem; }
+  .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text); }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%; padding: 0.75rem 1rem;
+    border: 2px solid var(--border); border-radius: 8px;
+    font-size: 1rem; font-family: inherit; transition: var(--transition);
+    background: var(--bg);
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    outline: none; border-color: var(--primary); background: #fff;
+  }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-success {
+    background: #d1fae5; color: #065f46; padding: 1rem; border-radius: 8px;
+    margin-top: 1rem; display: none; font-weight: 500;
+  }
+
+  .class-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 2rem 0; }
+  .feature-item {
+    background: var(--surface); padding: 1.25rem; border-radius: var(--radius);
+    border: 1px solid var(--border); display: flex; gap: 0.75rem; align-items: flex-start;
+  }
+  .feature-item .check { color: var(--success); font-size: 1.25rem; font-weight: bold; flex-shrink: 0; }
+
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+  .social-links { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.5rem; }
+  .social-links a {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: var(--surface); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    transition: var(--transition); box-shadow: var(--shadow);
+    color: var(--primary);
+  }
+  .social-links a:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+  .social-links a.youtube:hover { background: #FF0000; color: #fff; border-color: #FF0000; }
+  .social-links a.github:hover { background: #181717; color: #fff; border-color: #181717; }
+  .social-links a.linkedin:hover { background: #0A66C2; color: #fff; border-color: #0A66C2; }
+  .social-links a.email:hover { background: #EA4335; color: #fff; border-color: #EA4335; }
+  .social-links a.phone:hover { background: var(--success); color: #fff; border-color: var(--success); }
+  .social-links a.facebook:hover { background: #1877F2; color: #fff; border-color: #1877F2; }
+  .social-links a.twitter:hover { background: #000; color: #fff; border-color: #000; }
+  .social-links a.instagram:hover { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #fff; border-color: transparent; }
+  .social-links svg { width: 22px; height: 22px; }
+  .contact-info-item { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.25rem; }
+  .contact-info-item .icon-sm {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: #eff6ff; color: var(--primary);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .contact-info-item svg { width: 22px; height: 22px; }
+
+  .admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .stat-card {
+    background: var(--surface); padding: 1.5rem; border-radius: var(--radius);
+    box-shadow: var(--shadow); text-align: center;
+  }
+  .stat-card .num { font-size: 2.25rem; font-weight: 800; color: var(--primary); }
+  .stat-card .label { color: var(--text-muted); font-size: 0.9rem; }
+
+  .admin-list { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
+  .admin-item {
+    background: var(--surface); padding: 1rem 1.25rem; border-radius: 10px;
+    box-shadow: var(--shadow); border-left: 4px solid var(--success);
+    display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .admin-item-info { flex: 1; min-width: 200px; }
+  .admin-item-info strong { display: block; margin-bottom: 0.25rem; }
+  .admin-item-info small { color: var(--text-muted); }
+  .admin-item-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+  .tabs { display: flex; gap: 0.25rem; margin-bottom: 2rem; border-bottom: 2px solid var(--border); flex-wrap: wrap; }
+  .tab-btn {
+    padding: 0.75rem 1.25rem; background: none; border: none;
+    cursor: pointer; font-weight: 600; color: var(--text-muted);
+    border-bottom: 3px solid transparent; margin-bottom: -2px;
+    transition: var(--transition); font-family: inherit; font-size: 0.95rem;
+  }
+  .tab-btn:hover { color: var(--primary); }
+  .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+
+  .modal-backdrop {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+    z-index: 200; display: none; align-items: center; justify-content: center;
+    padding: 1rem; animation: fadeIn 0.2s ease; overflow-y: auto;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal {
+    background: #fff; border-radius: var(--radius); padding: 2rem;
+    max-width: 500px; width: 100%; box-shadow: var(--shadow-lg);
+    max-height: 90vh; overflow-y: auto;
+  }
+  .modal h3 { margin-bottom: 0.75rem; }
+  .modal-large { max-width: 700px; }
+
+  .lock-screen { max-width: 400px; margin: 0 auto; text-align: center; }
+  .lock-icon {
+    width: 80px; height: 80px; margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 2.5rem; box-shadow: var(--shadow-lg);
+  }
+
+  footer { background: #0f172a; color: #cbd5e1; padding: 2.5rem 0; margin-top: 4rem; text-align: center; }
+  footer a { color: var(--accent); }
+  .footer-social { display: flex; gap: 0.75rem; justify-content: center; margin: 1rem 0; flex-wrap: wrap; }
+  .footer-social a {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: rgba(255,255,255,0.1); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    transition: var(--transition);
+  }
+  .footer-social a:hover { background: var(--primary); transform: translateY(-2px); }
+  .footer-social svg { width: 18px; height: 18px; }
+
+  .section-header { text-align: center; margin-bottom: 3rem; }
+  .section-header p { max-width: 600px; margin: 0 auto; }
+
+  .toast {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 300;
+    background: var(--success); color: #fff; padding: 1rem 1.5rem;
+    border-radius: 10px; box-shadow: var(--shadow-lg);
+    transform: translateY(100px); opacity: 0; transition: var(--transition);
+    font-weight: 500; max-width: 90vw;
+  }
+  .toast.show { transform: none; opacity: 1; }
+  .toast.error { background: var(--danger); }
+
+  .info-box {
+    background: #eff6ff; border-left: 4px solid var(--primary);
+    padding: 1rem 1.25rem; border-radius: 8px; margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 768px) {
+    .menu-toggle { display: block; }
+    .nav-links {
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: #fff; flex-direction: column; gap: 0;
+      padding: 1rem; box-shadow: var(--shadow-lg);
+      border-top: 1px solid var(--border);
+      transform: translateY(-10px); opacity: 0; pointer-events: none;
+      transition: var(--transition);
+    }
+    .nav-links.open { transform: none; opacity: 1; pointer-events: auto; }
+    .nav-links li { width: 100%; }
+    .nav-links a { display: block; padding: 0.75rem 0; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .about-img { max-width: 220px; margin: 0 auto; }
+    .workshop-card { grid-template-columns: 1fr; text-align: center; }
+    .workshop-date { justify-self: center; }
+    .form-row { grid-template-columns: 1fr; }
+    section { padding: 3rem 0; }
+    .toast { left: 1rem; right: 1rem; bottom: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="container">
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#home" class="logo" data-page="home">&lt;<span>Bishal</span>/&gt;</a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home" data-page="home" class="active">Home</a></li>
+        <li><a href="#about" data-page="about">About</a></li>
+        <li><a href="#workshops" data-page="workshops">Workshops</a></li>
+        <li><a href="#classes" data-page="classes">Classes</a></li>
+        <li><a href="#contact" data-page="contact">Contact</a></li>
+        <li><a href="#admin" data-page="admin" class="admin-link">⚙ Admin</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- HOME -->
+<main id="home" class="page active">
+  <section class="hero">
+    <div class="container hero-content">
+      <h1>Bishal Rijal</h1>
+      <p class="tagline">Free Programming Workshops &amp; Personal Classes</p>
+      <p style="max-width: 650px; margin: 0 auto 2rem; color: rgba(255,255,255,0.9);">
+        Learn to code with hands-on workshops and one-on-one mentorship. From beginners to advanced — everyone is welcome.
+      </p>
+      <div class="hero-buttons">
+        <a href="#workshops" data-page="workshops" class="btn btn-primary">View Workshops</a>
+        <a href="#classes" data-page="classes" class="btn btn-outline">Book a Class</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <h2>About Bishal Rijal</h2>
+        <p>Passionate educator and full-stack developer dedicated to making programming accessible for everyone.</p>
+      </div>
+      <div class="about-grid">
+        <div class="about-img" aria-hidden="true">BR</div>
+        <div>
+          <h3>Hello, I'm Bishal 👋</h3>
+          <p style="margin-bottom: 1rem;">
+            I'm a programming instructor and software developer with years of experience teaching and building real-world applications. My mission is to help students build a strong foundation in coding through clear, practical, and engaging lessons.
+          </p>
+          <p style="margin-bottom: 1rem;">
+            Whether you're brand-new to programming or sharpening advanced skills, I offer free community workshops and personalized one-on-one classes tailored to your goals.
+          </p>
+          <a href="#about" data-page="about" class="btn btn-outline btn-sm">Read full story →</a>
+          <div class="skills" aria-label="Areas of expertise" style="margin-top: 1.25rem;">
+            <span class="skill-tag">PHP</span>
+            <span class="skill-tag">MERN Stack</span>
+            <span class="skill-tag">Scratch</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">C</span>
+            <span class="skill-tag">SQL</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background: #fff;">
+    <div class="container">
+      <div class="section-header">
+        <h2>What I Teach</h2>
+        <p>Choose from a variety of programming languages and technologies.</p>
+      </div>
+      <div class="grid">
+        <div class="card"><div class="icon">🐘</div><h3>PHP</h3><p>Build dynamic websites and powerful backend systems with PHP.</p></div>
+        <div class="card"><div class="icon">⚛️</div><h3>MERN Stack</h3><p>MongoDB, Express, React, Node.js — full-stack JavaScript mastery.</p></div>
+        <div class="card"><div class="icon">🧩</div><h3>Scratch</h3><p>Visual programming — perfect for kids and absolute beginners.</p></div>
+        <div class="card"><div class="icon">🐍</div><h3>Python</h3><p>From basics to data science, automation, and web development.</p></div>
+        <div class="card"><div class="icon">⚙️</div><h3>C</h3><p>Master the fundamentals of programming and memory management.</p></div>
+        <div class="card"><div class="icon">🗄️</div><h3>SQL</h3><p>Query, design, and manage relational databases effectively.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ABOUT PAGE -->
+<main id="about" class="page">
+  <section class="hero" style="padding: 3rem 0;">
+    <div class="container hero-content">
+      <h1>About Me</h1>
+      <p class="tagline">My journey, mission, and what drives me to teach</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="about-grid" style="margin-bottom: 3rem;">
+        <div class="about-img" aria-hidden="true">BR</div>
+        <div>
+          <h2 style="margin-bottom: 0.5rem;">Bishal Rijal</h2>
+          <p style="font-size: 1.1rem; color: var(--primary); font-weight: 600; margin-bottom: 1rem;">Full-Stack Developer &amp; Programming Instructor</p>
+          <p style="margin-bottom: 1rem;">
+            I'm a passionate developer and educator based in Kathmandu, Nepal. Over the years, I've combined my love for coding with a strong belief that quality education should be accessible to everyone — which is why I host <strong>free programming workshops</strong> alongside my personal classes.
+          </p>
+          <p>I specialize in helping students go from zero to building real, working software they can be proud of.</p>
+        </div>
+      </div>
+
+      <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 2rem;">
+        <div class="card">
+          <h3 style="color: var(--primary);">🎯 My Mission</h3>
+          <p>To break down the barriers that keep people from learning to code. Programming changed my life, and I want to help others discover the same opportunities — regardless of their background or budget.</p>
+        </div>
+        <div class="card">
+          <h3 style="color: var(--primary);">💡 My Approach</h3>
+          <p>I believe in <strong>learning by building</strong>. Every lesson combines clear concepts with hands-on practice, so students not only understand the "what" but also the "why" and "how" behind every line of code.</p>
+        </div>
+      </div>
+
+      <h2 style="margin-top: 3rem; margin-bottom: 1rem;">My Journey</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <span class="year">Started Programming</span>
+          <h4>Discovered the world of code</h4>
+          <p>Began my coding journey with C and Python, fascinated by how a few lines could solve real problems.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="year">Web Development</span>
+          <h4>Mastered full-stack development</h4>
+          <p>Dove deep into PHP, MySQL, and later the MERN stack — building dynamic web applications from the ground up.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="year">Teaching</span>
+          <h4>Started mentoring students</h4>
+          <p>Began offering personal classes to friends and peers, realizing my passion for explaining complex topics in simple ways.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="year">Today</span>
+          <h4>Free workshops &amp; personal mentorship</h4>
+          <p>Now hosting free community workshops and one-on-one classes, helping dozens of students build careers in tech.</p>
+        </div>
+      </div>
+
+      <h2 style="margin-top: 3rem; margin-bottom: 1rem;">Skills &amp; Expertise</h2>
+      <div class="grid">
+        <div class="card">
+          <div class="icon">💻</div>
+          <h3>Backend Development</h3>
+          <p>PHP, Node.js, Express, REST APIs, authentication, database design, and server architecture.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🎨</div>
+          <h3>Frontend Development</h3>
+          <p>React, JavaScript (ES6+), HTML5, CSS3, responsive design, and modern UI/UX principles.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🗄️</div>
+          <h3>Databases</h3>
+          <p>MySQL, MongoDB, SQL queries, schema design, optimization, and data modeling.</p>
+        </div>
+        <div class="card">
+          <div class="icon">📚</div>
+          <h3>Teaching &amp; Mentorship</h3>
+          <p>Curriculum design, beginner-friendly explanations, project-based learning, and personalized guidance.</p>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 3rem;">
+        <h2>Ready to Start Learning?</h2>
+        <p style="margin-bottom: 1.5rem;">Join a free workshop or book a personal class today.</p>
+        <div class="hero-buttons">
+          <a href="#workshops" data-page="workshops" class="btn btn-primary">Browse Workshops</a>
+          <a href="#contact" data-page="contact" class="btn btn-outline">Get in Touch</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- WORKSHOPS -->
+<main id="workshops" class="page">
+  <section class="hero" style="padding: 3rem 0;">
+    <div class="container hero-content">
+      <h1>Upcoming Workshops</h1>
+      <p class="tagline">Free, hands-on programming sessions — open to all</p>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
+        <h2 style="margin: 0;">All Workshops</h2>
+        <a href="#admin" data-page="admin" class="btn btn-primary btn-sm">+ Add New Workshop</a>
+      </div>
+      <div id="workshopsList" style="display: flex; flex-direction: column; gap: 1rem;"></div>
+    </div>
+  </section>
+</main>
+
+<!-- ADMIN -->
+<main id="admin" class="page">
+  <section class="hero" style="padding: 3rem 0;">
+    <div class="container hero-content">
+      <h1>Admin Panel</h1>
+      <p class="tagline">Manage workshops &amp; site settings</p>
+    </div>
+  </section>
+
+  <!-- LOCK SCREEN -->
+  <section id="lockSection">
+    <div class="container">
+      <div class="form lock-screen">
+        <div class="lock-icon">🔒</div>
+        <h2 style="margin-bottom: 0.5rem;">Admin Access Required</h2>
+        <p style="margin-bottom: 1.5rem;">Enter your password to manage workshops and settings.</p>
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="adminPass">Password</label>
+            <input type="password" id="adminPass" required autocomplete="current-password" placeholder="Enter admin password" />
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">🔓 Unlock Admin</button>
+        </form>
+        <div class="info-box" style="margin-top: 1.5rem; text-align: left;">
+          <strong>💡 First time?</strong> The default password is <code style="background:#fff;padding:2px 6px;border-radius:4px;">admin123</code>. You can change it after logging in.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADMIN CONTENT -->
+  <section id="adminSection" style="display: none;">
+    <div class="container">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+        <h2 style="margin: 0;">Dashboard</h2>
+        <button id="logoutBtn" class="btn btn-outline btn-sm">🔒 Lock Admin</button>
+      </div>
+
+      <div class="admin-stats">
+        <div class="stat-card"><div class="num" id="statTotal">0</div><div class="label">Total Workshops</div></div>
+        <div class="stat-card"><div class="num" id="statCustom">0</div><div class="label">Custom Added</div></div>
+        <div class="stat-card"><div class="num" id="statUpcoming">0</div><div class="label">Upcoming</div></div>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button class="tab-btn active" data-tab="workshops" role="tab">📅 Workshops</button>
+        <button class="tab-btn" data-tab="contact" role="tab">📞 Contact &amp; Social</button>
+        <button class="tab-btn" data-tab="data" role="tab">💾 Backup / Restore</button>
+        <button class="tab-btn" data-tab="security" role="tab">🔐 Security</button>
+      </div>
+
+      <!-- TAB: WORKSHOPS -->
+      <div class="tab-content active" id="tab-workshops">
+        <form class="form" id="workshopForm" novalidate>
+          <h3 style="margin-bottom: 1.25rem;" id="formTitle">Add New Workshop</h3>
+          <input type="hidden" id="wEditId" />
+          <div class="form-group">
+            <label for="wTitle">Workshop Name *</label>
+            <input type="text" id="wTitle" name="title" required placeholder="e.g., Advanced Python: Web Scraping" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="wDate">Date *</label>
+              <input type="date" id="wDate" name="date" required />
+            </div>
+            <div class="form-group">
+              <label for="wLevel">Skill Level</label>
+              <select id="wLevel" name="level">
+                <option>Beginner</option><option>Intermediate</option><option>Advanced</option>
+                <option>Kids</option><option>All Levels</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="wStart">Start Time</label>
+              <input type="time" id="wStart" name="startTime" value="18:00" />
+            </div>
+            <div class="form-group">
+              <label for="wEnd">End Time</label>
+              <input type="time" id="wEnd" name="endTime" value="20:00" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="wLocation">Location / Platform</label>
+            <input type="text" id="wLocation" name="location" placeholder="e.g., Online (Zoom)" value="Online (Zoom)" />
+          </div>
+          <div class="form-group">
+            <label for="wRegLink">Registration Link (optional)</label>
+            <input type="url" id="wRegLink" name="regLink" placeholder="https://forms.example.com/register" />
+          </div>
+          <div class="form-group">
+            <label for="wDesc">Short Description (optional)</label>
+            <textarea id="wDesc" name="description" placeholder="Brief overview of what attendees will learn..."></textarea>
+          </div>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <button type="submit" class="btn btn-primary" id="formSubmitBtn" style="flex: 1; min-width: 200px;">+ Add Workshop</button>
+            <button type="button" class="btn btn-outline" id="cancelEditBtn" style="display:none;">Cancel Edit</button>
+            <button type="reset" class="btn btn-outline">Reset</button>
+          </div>
+        </form>
+
+        <div style="margin-top: 3rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <h3 style="margin: 0;">Manage Custom Workshops</h3>
+            <button id="clearAllBtn" class="btn btn-danger btn-sm">🗑 Clear All Custom</button>
+          </div>
+          <p style="margin-top: 0.5rem;">Click <strong>Edit</strong> to modify, or <strong>Delete</strong> to remove.</p>
+          <div id="adminList" class="admin-list"></div>
+        </div>
+      </div>
+
+      <!-- TAB: CONTACT -->
+      <div class="tab-content" id="tab-contact">
+        <form class="form" id="contactInfoForm" style="max-width: 700px;">
+          <h3 style="margin-bottom: 1.25rem;">Contact Information &amp; Social Links</h3>
+          <p style="margin-bottom: 1.5rem;">These details appear on the Contact page and footer. Leave any field blank to hide it.</p>
+
+          <h4 style="margin: 1rem 0 0.5rem; color: var(--primary);">📞 Contact Details</h4>
+          <div class="form-group">
+            <label for="ciEmail">Email Address</label>
+            <input type="email" id="ciEmail" placeholder="bishal@example.com" />
+          </div>
+          <div class="form-group">
+            <label for="ciPhone">Phone / WhatsApp</label>
+            <input type="tel" id="ciPhone" placeholder="+977 98XXXXXXXX" />
+          </div>
+          <div class="form-group">
+            <label for="ciLocation">Location</label>
+            <input type="text" id="ciLocation" placeholder="Kathmandu, Nepal" />
+          </div>
+
+          <h4 style="margin: 1.5rem 0 0.5rem; color: var(--primary);">🌐 Social Media Links</h4>
+          <div class="form-group">
+            <label for="ciYoutube">📺 YouTube Channel</label>
+            <input type="url" id="ciYoutube" placeholder="https://youtube.com/@yourchannel" />
+          </div>
+          <div class="form-group">
+            <label for="ciGithub">💻 GitHub Profile</label>
+            <input type="url" id="ciGithub" placeholder="https://github.com/yourusername" />
+          </div>
+          <div class="form-group">
+            <label for="ciLinkedin">💼 LinkedIn Profile</label>
+            <input type="url" id="ciLinkedin" placeholder="https://linkedin.com/in/yourprofile" />
+          </div>
+          <div class="form-group">
+            <label for="ciFacebook">📘 Facebook Page</label>
+            <input type="url" id="ciFacebook" placeholder="https://facebook.com/yourpage" />
+          </div>
+          <div class="form-group">
+            <label for="ciTwitter">🐦 Twitter / X</label>
+            <input type="url" id="ciTwitter" placeholder="https://twitter.com/yourhandle" />
+          </div>
+          <div class="form-group">
+            <label for="ciInstagram">📷 Instagram</label>
+            <input type="url" id="ciInstagram" placeholder="https://instagram.com/yourhandle" />
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%;">💾 Save Contact Info</button>
+        </form>
+      </div>
+
+      <!-- TAB: DATA -->
+      <div class="tab-content" id="tab-data">
+        <div class="form" style="max-width: 700px;">
+          <h3 style="margin-bottom: 1rem;">📤 Export Your Data</h3>
+          <p style="margin-bottom: 1rem;">Download a JSON backup of all your custom workshops and contact info. Keep it safe — you can restore it anytime.</p>
+          <button id="exportBtn" class="btn btn-success" style="width: 100%;">⬇ Download Backup (JSON)</button>
+
+          <hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--border);" />
+
+          <h3 style="margin-bottom: 1rem;">📥 Import / Restore</h3>
+          <p style="margin-bottom: 1rem;">Restore from a previous backup. <strong>Warning:</strong> This will replace your current data.</p>
+          <div class="form-group">
+            <label for="importFile">Select JSON Backup File</label>
+            <input type="file" id="importFile" accept=".json,application/json" />
+          </div>
+          <button id="importBtn" class="btn btn-warning" style="width: 100%;">⬆ Import Backup</button>
+
+          <div class="info-box" style="margin-top: 1.5rem;">
+            <strong>💡 Pro tip:</strong> Export regularly! Your data is stored only in this browser, so clearing browser data or switching devices will lose it unless you have a backup.
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: SECURITY -->
+      <div class="tab-content" id="tab-security">
+        <form class="form" id="passwordForm" style="max-width: 500px;">
+          <h3 style="margin-bottom: 1rem;">🔐 Change Admin Password</h3>
+          <p style="margin-bottom: 1.5rem;">Update the password used to access this admin panel.</p>
+          <div class="form-group">
+            <label for="curPass">Current Password</label>
+            <input type="password" id="curPass" required autocomplete="current-password" />
+          </div>
+          <div class="form-group">
+            <label for="newPass">New Password (min 4 chars)</label>
+            <input type="password" id="newPass" required minlength="4" autocomplete="new-password" />
+          </div>
+          <div class="form-group">
+            <label for="confPass">Confirm New Password</label>
+            <input type="password" id="confPass" required minlength="4" autocomplete="new-password" />
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">🔑 Update Password</button>
+          <div class="info-box" style="margin-top: 1.5rem;">
+            <strong>⚠ Note:</strong> This is client-side password protection for convenience only. For real security, use a server-based authentication system.
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- CLASSES -->
+<main id="classes" class="page">
+  <section class="hero" style="padding: 3rem 0;">
+    <div class="container hero-content">
+      <h1>Personal Classes</h1>
+      <p class="tagline">One-on-one mentorship tailored to your pace and goals</p>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <h2>Why One-on-One Classes?</h2>
+        <p>Get personalized attention, custom-tailored lessons, and real-time feedback to accelerate your learning journey.</p>
+      </div>
+      <div class="class-features">
+        <div class="feature-item"><span class="check">✓</span><div><strong>Custom Curriculum</strong><p style="font-size:0.9rem;">Lessons built around your goals.</p></div></div>
+        <div class="feature-item"><span class="check">✓</span><div><strong>Flexible Schedule</strong><p style="font-size:0.9rem;">Choose times that work for you.</p></div></div>
+        <div class="feature-item"><span class="check">✓</span><div><strong>Real Projects</strong><p style="font-size:0.9rem;">Build a portfolio with real apps.</p></div></div>
+        <div class="feature-item"><span class="check">✓</span><div><strong>1-on-1 Support</strong><p style="font-size:0.9rem;">Direct help when you're stuck.</p></div></div>
+        <div class="feature-item"><span class="check">✓</span><div><strong>All Levels</strong><p style="font-size:0.9rem;">Beginner-friendly to advanced.</p></div></div>
+        <div class="feature-item"><span class="check">✓</span><div><strong>Online or In-Person</strong><p style="font-size:0.9rem;">Learn from anywhere.</p></div></div>
+      </div>
+
+      <div class="section-header" style="margin-top: 3rem;">
+        <h2>Inquire About Personal Classes</h2>
+        <p>Fill out the form below and I'll get back to you within 24 hours.</p>
+      </div>
+
+      <form class="form" id="inquiryForm" novalidate>
+        <div class="form-group">
+          <label for="iname">Full Name *</label>
+          <input type="text" id="iname" required />
+        </div>
+        <div class="form-group">
+          <label for="iemail">Email Address *</label>
+          <input type="email" id="iemail" required />
+        </div>
+        <div class="form-group">
+          <label for="isubject">Topic of Interest *</label>
+          <select id="isubject" required>
+            <option value="">— Select a subject —</option>
+            <option>PHP</option><option>MERN Stack</option><option>Scratch</option>
+            <option>Python</option><option>C</option><option>SQL</option>
+            <option>Not sure / Need guidance</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="ilevel">Your Current Level</label>
+          <select id="ilevel">
+            <option>Complete beginner</option><option>Some experience</option>
+            <option>Intermediate</option><option>Advanced</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="imessage">Tell me about your goals *</label>
+          <textarea id="imessage" required placeholder="What do you hope to learn?"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;">Send Inquiry</button>
+        <div class="form-success" id="inquirySuccess">✓ Thank you! Your inquiry has been received.</div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<!-- CONTACT -->
+<main id="contact" class="page">
+  <section class="hero" style="padding: 3rem 0;">
+    <div class="container hero-content">
+      <h1>Get in Touch</h1>
+      <p class="tagline">Questions? Workshop registration? Let's talk!</p>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <div class="contact-grid">
+        <div>
+          <h2>Contact Information</h2>
+          <p style="margin-bottom: 1.5rem;">Reach out through any of the channels below — I'd love to hear from you.</p>
+          <div id="contactInfoDisplay"></div>
+
+          <h3 style="margin-top: 1.5rem;">Follow Me</h3>
+          <div class="social-links" id="socialLinks" aria-label="Social media links"></div>
+        </div>
+
+        <form class="form" id="contactForm" novalidate>
+          <h2 style="margin-bottom: 1.25rem;">Send a Message</h2>
+          <div class="form-group">
+            <label for="cname">Name *</label>
+            <input type="text" id="cname" required />
+          </div>
+          <div class="form-group">
+            <label for="cemail">Email *</label>
+            <input type="email" id="cemail" required />
+          </div>
+          <div class="form-group">
+            <label for="cmsg">Message *</label>
+            <textarea id="cmsg" required placeholder="How can I help?"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;">Send Message</button>
+          <div class="form-success" id="contactSuccess">✓ Message sent!</div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p><strong>Bishal Rijal</strong> — Free Programming Workshops &amp; Personal Classes</p>
+    <div class="footer-social" id="footerSocial"></div>
+    <p style="font-size: 0.9rem;">&copy; 2025 Bishal Rijal. Built with ❤️ for the coding community.</p>
+  </div>
+</footer>
+
+<!-- Confirm Modal -->
+<div class="modal-backdrop" id="confirmModal">
+  <div class="modal">
+    <h3 id="confirmTitle">Are you sure?</h3>
+    <p id="confirmMsg" style="margin-bottom: 1.5rem;">This action cannot be undone.</p>
+    <div style="display: flex; gap: 0.75rem; justify-content: flex-end; flex-wrap: wrap;">
+      <button class="btn btn-outline btn-sm" id="confirmCancel">Cancel</button>
+      <button class="btn btn-danger" id="confirmOk">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Done!</div>
+
+<script>
+/* ========== STORAGE KEYS ========== */
+const KEYS = {
+  workshops: 'bishalCustomWorkshops',
+  contact: 'bishalContactInfo',
+  password: 'bishalAdminPass',
+  authed: 'bishalAuthed'
+};
+const DEFAULT_PASSWORD = 'admin123';
+
+/* ========== SVG ICONS ========== */
+const ICONS = {
+  email: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>',
+  phone: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>',
+  location: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>',
+  youtube: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>',
+  github: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>',
+  linkedin: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.063 2.063 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>',
+  facebook: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>',
+  twitter: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
+  instagram: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>'
+};
+
+/* ========== DEFAULT WORKSHOPS ========== */
+const defaultWorkshops = [
+  { id: 'd1', title: 'Introduction to Python Programming', date: '2025-01-15', startTime: '18:00', endTime: '20:00', location: 'Online (Zoom)', level: 'Beginner', regLink: '', description: '', custom: false },
+  { id: 'd2', title: 'Scratch for Young Coders', date: '2025-01-22', startTime: '16:00', endTime: '17:30', location: 'Online', level: 'Kids', regLink: '', description: '', custom: false },
+  { id: 'd3', title: 'PHP & MySQL: Build a Mini Web App', date: '2025-02-05', startTime: '18:00', endTime: '21:00', location: 'Online', level: 'Intermediate', regLink: '', description: '', custom: false },
+  { id: 'd4', title: 'MERN Stack Crash Course', date: '2025-02-12', startTime: '17:00', endTime: '20:00', location: 'Online', level: 'Advanced', regLink: '', description: '', custom: false },
+  { id: 'd5', title: 'SQL Fundamentals: Queries & Joins', date: '2025-02-26', startTime: '18:00', endTime: '20:00', location: 'Online', level: 'Beginner', regLink: '', description: '', custom: false },
+  { id: 'd6', title: 'C Programming for Absolute Beginners', date: '2025-03-10', startTime: '18:00', endTime: '20:00', location: 'Online', level: 'Beginner', regLink: '', description: '', custom: false },
+];
+
+const defaultContact = {
+  email: 'bishal@example.com',
+  phone: '+977 98XXXXXXXX',
+  location: 'Kathmandu, Nepal (Online worldwide)',
+  youtube: '', github: '', linkedin: '',
+  facebook: '', twitter: '', instagram: ''
+};
+
+/* ========== STORAGE HELPERS ========== */
+const load = (key, fallback) => {
+  try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
+  catch { return fallback; }
+};
+const save = (key, val) => localStorage.setItem(key, JSON.stringify(val));
+
+const loadCustom = () => load(KEYS.workshops, []);
+const saveCustom = list => save(KEYS.workshops, list);
+const getAllWorkshops = () => [...defaultWorkshops, ...loadCustom()];
+const loadContact = () => ({ ...defaultContact, ...load(KEYS.contact, {}) });
+const saveContact = c => save(KEYS.contact, c);
+const getPassword = () => load(KEYS.password, DEFAULT_PASSWORD);
+const setPassword = p => save(KEYS.password, p);
+const isAuthed = () => sessionStorage.getItem(KEYS.authed) === '1';
+const setAuthed = v => v ? sessionStorage.setItem(KEYS.authed, '1') : sessionStorage.removeItem(KEYS.authed);
+
+/* ========== NAVIGATION ========== */
+const pages = document.querySelectorAll('.page');
+const navMenu = document.getElementById('navLinks');
+const menuToggle = document.querySelector('.menu-toggle');
+
+function showPage(id) {
+  pages.forEach(p => p.classList.toggle('active', p.id === id));
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.toggle('active', a.dataset.page === id));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  navMenu.classList.remove('open');
+  menuToggle.setAttribute('aria-expanded', 'false');
+  if (id === 'admin') updateAdminView();
+}
+
+document.addEventListener('click', e => {
+  const link = e.target.closest('[data-page]');
+  if (link) {
+    e.preventDefault();
+    showPage(link.dataset.page);
+    history.replaceState(null, '', '#' + link.dataset.page);
+  }
+});
+
+window.addEventListener('load', () => {
+  const hash = window.location.hash.replace('#', '');
+  if (hash && document.getElementById(hash)) showPage(hash);
+  renderAll();
+});
+
+menuToggle.addEventListener('click', () => {
+  const open = navMenu.classList.toggle('open');
+  menuToggle.setAttribute('aria-expanded', open);
+});
+
+/* ========== HELPERS ========== */
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmtDate = iso => {
+  const d = new Date(iso + 'T00:00:00');
+  return { day: d.getDate(), month: MONTHS[d.getMonth()], full: d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) };
+};
+const fmtTime = t => {
+  if (!t) return '';
+  const [h, m] = t.split(':').map(Number);
+  return `${h % 12 || 12}:${String(m).padStart(2,'0')} ${h >= 12 ? 'PM' : 'AM'}`;
+};
+const escapeHtml = s => String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ========== RENDER WORKSHOPS ========== */
+function renderWorkshops() {
+  const list = getAllWorkshops().sort((a, b) => a.date.localeCompare(b.date));
+  const container = document.getElementById('workshopsList');
+  if (!list.length) {
+    container.innerHTML = `<div class="empty-state"><h3>No workshops yet</h3><p>Click "+ Add New Workshop" to create one!</p></div>`;
+    return;
+  }
+  container.innerHTML = list.map(w => {
+    const d = fmtDate(w.date);
+    const meta = [`📅 ${d.full}`, w.startTime ? `⏰ ${fmtTime(w.startTime)}${w.endTime ? ' – ' + fmtTime(w.endTime) : ''}` : '', w.location ? `💻 ${escapeHtml(w.location)}` : ''].filter(Boolean).join(' • ');
+    const reg = w.regLink ? `<a href="${escapeHtml(w.regLink)}" target="_blank" rel="noopener" class="btn btn-primary">Register</a>` : `<a href="#contact" data-page="contact" class="btn btn-primary">Register</a>`;
+    return `<article class="workshop-card ${w.custom ? 'custom' : ''}">
+      <div class="workshop-date"><div class="day">${d.day}</div><div class="month">${d.month}</div></div>
+      <div class="workshop-info">
+        <span class="badge">${escapeHtml(w.level || 'All Levels')}</span>
+        ${w.custom ? '<span class="badge custom-badge">Custom</span>' : ''}
+        <h3>${escapeHtml(w.title)}</h3>
+        <p class="workshop-meta">${meta}</p>
+        ${w.description ? `<p style="margin-top:0.5rem; font-size:0.9rem;">${escapeHtml(w.description)}</p>` : ''}
+      </div>
+      <div class="workshop-actions">${reg}</div>
+    </article>`;
+  }).join('');
+}
+
+/* ========== RENDER ADMIN LIST ========== */
+function renderAdmin() {
+  const all = getAllWorkshops();
+  const custom = loadCustom();
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('statTotal').textContent = all.length;
+  document.getElementById('statCustom').textContent = custom.length;
+  document.getElementById('statUpcoming').textContent = all.filter(w => w.date >= today).length;
+
+  const adminList = document.getElementById('adminList');
+  if (!custom.length) {
+    adminList.innerHTML = `<div class="empty-state"><p>No custom workshops yet. Add one using the form above!</p></div>`;
+    return;
+  }
+  adminList.innerHTML = custom.sort((a, b) => a.date.localeCompare(b.date)).map(w => {
+    const d = fmtDate(w.date);
+    return `<div class="admin-item">
+      <div class="admin-item-info">
+        <strong>${escapeHtml(w.title)}</strong>
+        <small>📅 ${d.full} • ${escapeHtml(w.level || 'All Levels')}${w.startTime ? ' • ⏰ ' + fmtTime(w.startTime) : ''}</small>
+      </div>
+      <div class="admin-item-actions">
+        <button class="btn btn-warning btn-sm" data-edit="${w.id}">✏ Edit</button>
+        <button class="btn btn-danger btn-sm" data-delete="${w.id}">🗑 Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ========== RENDER CONTACT INFO ========== */
+function renderContact() {
+  const c = loadContact();
+  const display = document.getElementById('contactInfoDisplay');
+  const items = [];
+  if (c.email) items.push(`<div class="contact-info-item"><div class="icon-sm">${ICONS.email}</div><div><strong>Email</strong><p><a href="mailto:${escapeHtml(c.email)}">${escapeHtml(c.email)}</a></p></div></div>`);
+  if (c.phone) items.push(`<div class="contact-info-item"><div class="icon-sm">${ICONS.phone}</div><div><strong>Phone / WhatsApp</strong><p><a href="tel:${escapeHtml(c.phone.replace(/\s/g,''))}">${escapeHtml(c.phone)}</a></p></div></div>`);
+  if (c.location) items.push(`<div class="contact-info-item"><div class="icon-sm">${ICONS.location}</div><div><strong>Location</strong><p>${escapeHtml(c.location)}</p></div></div>`);
+  display.innerHTML = items.join('') || '<p>No contact info set yet.</p>';
+
+  const socials = [
+    { key: 'youtube', label: 'YouTube', cls: 'youtube' },
+    { key: 'github', label: 'GitHub', cls: 'github' },
+    { key: 'linkedin', label: 'LinkedIn', cls: 'linkedin' },
+    { key: 'facebook', label: 'Facebook', cls: 'facebook' },
+    { key: 'twitter', label: 'Twitter / X', cls: 'twitter' },
+    { key: 'instagram', label: 'Instagram', cls: 'instagram' }
+  ];
+  // Also add email & phone as quick-access social icons
+  const quickAccess = [];
+  if (c.email) quickAccess.push(`<a href="mailto:${escapeHtml(c.email)}" class="email" aria-label="Email" title="Email">${ICONS.email}</a>`);
+  if (c.phone) quickAccess.push(`<a href="tel:${escapeHtml(c.phone.replace(/\s/g,''))}" class="phone" aria-label="Phone" title="Phone">${ICONS.phone}</a>`);
+
+  const socialHtml = socials.filter(s => c[s.key]).map(s =>
+    `<a href="${escapeHtml(c[s.key])}" target="_blank" rel="noopener" class="${s.cls}" aria-label="${s.label}" title="${s.label}">${ICONS[s.key]}</a>`
+  ).join('');
+
+  document.getElementById('socialLinks').innerHTML = quickAccess.join('') + socialHtml || '<p style="color:var(--text-muted); font-size:0.9rem;">No social links set yet.</p>';
+
+  // Footer social
+  document.getElementById('footerSocial').innerHTML = socials.filter(s => c[s.key]).map(s =>
+    `<a href="${escapeHtml(c[s.key])}" target="_blank" rel="noopener" aria-label="${s.label}" title="${s.label}">${ICONS[s.key]}</a>`
+  ).join('');
+
+  // Populate admin contact form
+  document.getElementById('ciEmail').value = c.email || '';
+  document.getElementById('ciPhone').value = c.phone || '';
+  document.getElementById('ciLocation').value = c.location || '';
+  document.getElementById('ciYoutube').value = c.youtube || '';
+  document.getElementById('ciGithub').value = c.github || '';
+  document.getElementById('ciLinkedin').value = c.linkedin || '';
+  document.getElementById('ciFacebook').value = c.facebook || '';
+  document.getElementById('ciTwitter').value = c.twitter || '';
+  document.getElementById('ciInstagram').value = c.instagram || '';
+}
+
+function renderAll() {
+  renderWorkshops();
+  renderAdmin();
+  renderContact();
+}
+
+/* ========== ADMIN AUTH ========== */
+function updateAdminView() {
+  const lock = document.getElementById('lockSection');
+  const content = document.getElementById('adminSection');
+  if (isAuthed()) {
+    lock.style.display = 'none';
+    content.style.display = 'block';
+  } else {
+    lock.style.display = 'block';
+    content.style.display = 'none';
+  }
+}
+
+document.getElementById('loginForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const pass = document.getElementById('adminPass').value;
+  if (pass === getPassword()) {
+    setAuthed(true);
+    document.getElementById('adminPass').value = '';
+    updateAdminView();
+    showToast('🔓 Admin unlocked!');
+  } else {
+    showToast('❌ Incorrect password', true);
+  }
+});
+
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  setAuthed(false);
+  updateAdminView();
+  showToast('🔒 Locked');
+});
+
+/* ========== TABS ========== */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ========== WORKSHOP FORM (Add/Edit) ========== */
+const wForm = document.getElementById('workshopForm');
+const formTitle = document.getElementById('formTitle');
+const formSubmitBtn = document.getElementById('formSubmitBtn');
+const cancelEditBtn = document.getElementById('cancelEditBtn');
+
+function resetWorkshopForm() {
+  wForm.reset();
+  document.getElementById('wEditId').value = '';
+  document.getElementById('wStart').value = '18:00';
+  document.getElementById('wEnd').value = '20:00';
+  document.getElementById('wLocation').value = 'Online (Zoom)';
+  formTitle.textContent = 'Add New Workshop';
+  formSubmitBtn.textContent = '+ Add Workshop';
+  cancelEditBtn.style.display = 'none';
+}
+
+cancelEditBtn.addEventListener('click', resetWorkshopForm);
+
+wForm.addEventListener('submit', e => {
+  e.preventDefault();
+  if (!wForm.checkValidity()) { wForm.reportValidity(); return; }
+  const editId = document.getElementById('wEditId').value;
+  const data = {
+    title: document.getElementById('wTitle').value.trim(),
+    date: document.getElementById('wDate').value,
+    startTime: document.getElementById('wStart').value,
+    endTime: document.getElementById('wEnd').value,
+    location: document.getElementById('wLocation').value.trim(),
+    level: document.getElementById('wLevel').value,
+    regLink: document.getElementById('wRegLink').value.trim(),
+    description: document.getElementById('wDesc').value.trim(),
+    custom: true
+  };
+  const list = loadCustom();
+  if (editId) {
+    const idx = list.findIndex(x => x.id === editId);
+    if (idx !== -1) {
+      list[idx] = { ...list[idx], ...data };
+      saveCustom(list);
+      showToast('✓ Workshop updated!');
+    }
+  } else {
+    list.push({ id: 'c' + Date.now(), ...data });
+    saveCustom(list);
+    showToast('✓ Workshop added!');
+  }
+  resetWorkshopForm();
+  renderAll();
+});
+
+/* ========== EDIT / DELETE ========== */
+document.getElementById('adminList').addEventListener('click', e => {
+  const editBtn = e.target.closest('[data-edit]');
+  const delBtn = e.target.closest('[data-delete]');
+
+  if (editBtn) {
+    const w = loadCustom().find(x => x.id === editBtn.dataset.edit);
+    if (!w) return;
+    document.getElementById('wEditId').value = w.id;
+    document.getElementById('wTitle').value = w.title;
+    document.getElementById('wDate').value = w.date;
+    document.getElementById('wStart').value = w.startTime || '';
+    document.getElementById('wEnd').value = w.endTime || '';
+    document.getElementById('wLocation').value = w.location || '';
+    document.getElementById('wLevel').value = w.level || 'Beginner';
+    document.getElementById('wRegLink').value = w.regLink || '';
+    document.getElementById('wDesc').value = w.description || '';
+    formTitle.textContent = '✏ Edit Workshop';
+    formSubmitBtn.textContent = '💾 Save Changes';
+    cancelEditBtn.style.display = 'inline-block';
+    wForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  if (delBtn) {
+    const w = loadCustom().find(x => x.id === delBtn.dataset.delete);
+    if (!w) return;
+    openConfirm('Delete workshop?', `"${w.title}" will be permanently removed.`, () => {
+      saveCustom(loadCustom().filter(x => x.id !== delBtn.dataset.delete));
+      renderAll();
+      showToast('🗑 Workshop deleted');
+    });
+  }
+});
+
+document.getElementById('clearAllBtn').addEventListener('click', () => {
+  if (!loadCustom().length) { showToast('No custom workshops to clear', true); return; }
+  openConfirm('Clear all custom workshops?', 'This will remove every workshop you have added.', () => {
+    saveCustom([]); renderAll(); showToast('✓ All cleared');
+  });
+});
+
+/* ========== CONTACT INFO FORM ========== */
+document.getElementById('contactInfoForm').addEventListener('submit', e => {
+  e.preventDefault();
+  saveContact({
+    email: document.getElementById('ciEmail').value.trim(),
+    phone: document.getElementById('ciPhone').value.trim(),
+    location: document.getElementById('ciLocation').value.trim(),
+    youtube: document.getElementById('ciYoutube').value.trim(),
+    github: document.getElementById('ciGithub').value.trim(),
+    linkedin: document.getElementById('ciLinkedin').value.trim(),
+    facebook: document.getElementById('ciFacebook').value.trim(),
+    twitter: document.getElementById('ciTwitter').value.trim(),
+    instagram: document.getElementById('ciInstagram').value.trim()
+  });
+  renderContact();
+  showToast('✓ Contact info saved!');
+});
+
+/* ========== EXPORT / IMPORT ========== */
+document.getElementById('exportBtn').addEventListener('click', () => {
+  const data = {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    workshops: loadCustom(),
+    contact: loadContact()
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `bishal-backup-${new Date().toISOString().split('T')[0]}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('✓ Backup downloaded!');
+});
+
+document.getElementById('importBtn').addEventListener('click', () => {
+  const file = document.getElementById('importFile').files[0];
+  if (!file) { showToast('Please select a file first', true); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data || (!Array.isArray(data.workshops) && !data.contact)) {
+        showToast('Invalid backup file', true); return;
+      }
+      openConfirm('Restore from backup?', 'This will replace your current workshops and contact info.', () => {
+        if (Array.isArray(data.workshops)) saveCustom(data.workshops);
+        if (data.contact) saveContact(data.contact);
+        renderAll();
+        document.getElementById('importFile').value = '';
+        showToast('✓ Backup restored!');
+      });
+    } catch {
+      showToast('Could not parse JSON file', true);
+    }
+  };
+  reader.readAsText(file);
+});
+
+/* ========== PASSWORD CHANGE ========== */
+document.getElementById('passwordForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const cur = document.getElementById('curPass').value;
+  const nw = document.getElementById('newPass').value;
+  const cf = document.getElementById('confPass').value;
+  if (cur !== getPassword()) { showToast('Current password is incorrect', true); return; }
+  if (nw.length < 4) { showToast('New password too short', true); return; }
+  if (nw !== cf) { showToast('Passwords do not match', true); return; }
+  setPassword(nw);
+  document.getElementById('passwordForm').reset();
+  showToast('✓ Password updated!');
+});
+
+/* ========== CONFIRM MODAL ========== */
+const modal = document.getElementById('confirmModal');
+let confirmAction = null;
+function openConfirm(title, msg, onOk) {
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmMsg').textContent = msg;
+  confirmAction = onOk;
+  modal.classList.add('open');
+}
+function closeConfirm() { modal.classList.remove('open'); confirmAction = null; }
+document.getElementById('confirmCancel').addEventListener('click', closeConfirm);
+modal.addEventListener('click', e => { if (e.target === modal) closeConfirm(); });
+document.getElementById('confirmOk').addEventListener('click', () => {
+  if (confirmAction) confirmAction();
+  closeConfirm();
+});
+
+/* ========== TOAST ========== */
+const toast = document.getElementById('toast');
+let toastTimer;
+function showToast(msg, isError = false) {
+  toast.textContent = msg;
+  toast.classList.toggle('error', isError);
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+/* ========== CONTACT/INQUIRY FORMS ========== */
+function handleForm(formId, successId) {
+  const form = document.getElementById(formId);
+  const success = document.getElementById(successId);
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    success.style.display = 'block';
+    form.reset();
+    setTimeout(() => { success.style.display = 'none'; }, 5000);
+  });
+}
+handleForm('inquiryForm', 'inquirySuccess');
+handleForm('contactForm', 'contactSuccess');
+
+/* ========== INIT ========== */
+document.getElementById('wDate').min = new Date().toISOString().split('T')[0];
+</script>
+
+</body>
+</html>
