@@ -1,0 +1,16 @@
+{
+  "name": "bishal-website",
+  "version": "1.0.0",
+  "description": "Bishal Rijal's Programming Workshops & Classes Website",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["programming", "workshops", "classes"],
+  "author": "Bishal Rijal",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
